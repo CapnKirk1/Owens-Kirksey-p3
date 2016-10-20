@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <iostream>
-#include <sys/stat.h>
+
 using std::cout;
 using std::endl;
 
