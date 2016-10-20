@@ -18,6 +18,18 @@ void printMonth(int, Month, int);
 int main(int argc, char *argv[1]){
 
   Month currentMonth = October;
+  if (argc == 0){
+
+  }
+  if (argc == 1){
+
+  }
+  if (argc == 2){
+
+  }
+  if (argc == 3){
+
+  }
   printMonth(19, currentMonth, 2016);
 
   return EXIT_SUCCESS;
