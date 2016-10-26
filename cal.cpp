@@ -1,28 +1,32 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <iostream>
+#include<string>
 
 using std::cout;
 using std::endl;
-
+using std::string;
 enum Month { January, February, March, April, May, June, July, 
 	     August, September, October, November, December};
 enum Day { Su, Mo, Tu, We, Th, Fr, Sa};
-enum Calendar{Julian, Gregorian};
+enum Calendar { Julian, Gregorian};
+
 int initialDate = 14;
 Month initialMonth = September;
 Day initialDay = Th;
 int initialYear = 1752;
-void printMonth(int, Month, int);
+
+long daysPassed(int, Month, int);
+int day(long);
+void print();
 
 int main(int argc, char *argv[1]){
 
-  Month currentMonth = October;
   if (argc == 0){
 
   }
   if (argc == 1){
-
+    
   }
   if (argc == 2){
 
@@ -30,21 +34,25 @@ int main(int argc, char *argv[1]){
   if (argc == 3){
 
   }
-  printMonth(19, currentMonth, 2016);
-
+  print();
   return EXIT_SUCCESS;
 }
-void printMonth(int date, Month m, int year)
+
+long daysPassed(int date, Month m, int year)
 {
   long daysPassed = 0;
   daysPassed = daysPassed + date - initialDate;
+
   for(int i = initialMonth; (i%12) != m; i++)
 {
   if(i > 11)
     year--;
   
   i = (Month)(i%12);
-
+  
+  int q = m;
+  q--; q = q % 12;
+  m = (Month)q;
   switch(m)
     {
     case January: daysPassed += 31; break;
@@ -78,12 +86,29 @@ void printMonth(int date, Month m, int year)
       }
       
     }
+  return daysPassed;
+}//daysPassed
+
+int day(long daysPassed){
   int day = 0;
-  day = initialDay;
-  day += (daysPassed % 7);
+  day = 4;
+  day = day + (daysPassed % 7);
   day = (day % 7);
-  cout << "October " << year << endl << "Su Mo Tu We Th Fr Sa" << endl 
-       << day << endl;
- 
-  
+  return day;
+}//day
+
+void print(){
+  string month = "       March ";
+  Month m = October;
+  int n = (m + 1);
+  int year = 1752;
+  //cout << month << year << endl 
+  ///   << "Su Mo Tu We Th Fr Sa" << endl;
+  cout << n << " " << year << " " << daysPassed(1, m, year) << endl;
+  /*
+  for(int i = 0; i < day(daysPassed(1, March, year)); i++){
+    cout << "   ";
+  }
+  cout << " 1" << endl;
+  */
 }
