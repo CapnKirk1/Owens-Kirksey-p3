@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
+#include <chrono>
 
 using std::cout;
 using std::endl;
@@ -20,7 +21,6 @@ int main(int argc, char * argv[]){
   const char * month[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
   const char * fullmonth[] = {"January","February","March","April","May","June","July","August","Sepember","October","November","December"};
   const char * ds[] = {"EST","EDT"};
-
 
   if (argc == 1){
   cout << abvwkday[tim->tm_wday] << " " << month[tim->tm_mon] << " " << tim->tm_mday << " " 
@@ -98,7 +98,10 @@ int main(int argc, char * argv[]){
 	cout << "\n" << endl;
       }
       if (*(argv[1]+2) == 'N'){
-	cout << endl;
+	//cout << std::chrono::nanoseconds() << endl;
+	//cout << std::chrono::high_resolution_clock::now() << endl;
+	//auto finish = std::chrono::high_resolution_clock::now();
+	//cout << std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start) << endl;
       }
     }
   }
