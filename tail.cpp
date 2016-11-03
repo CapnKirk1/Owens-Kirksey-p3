@@ -14,29 +14,35 @@ using std::stoi;
 using std::stringstream;
 
 char* text = NULL;
-
+long mag;
 static int Read(char *filename);
 
 int main(int argc, char * argv[]){
   char str[512] = "";
   if(argc == 2){
     int j = 0;
+    string buffy = "";
     strcpy(str, argv[1]);
     Read(str);
     for(int i = 0; i < 10; i++){
-      while(text[j] != '\n'){
-	cout << text[j];
+      while(text[mag - j] != '\n'){
+	buffy += text[mag - j];
 	j++;
       }//while
-      cout << endl;
+      buffy += '\n';
       j++;
+      
     }//for
+    for(unsigned int i = 0; i < buffy.length(); i++){
+      cout << buffy[buffy.length() - i];
+    }
   }//if
 
   if(argc == 4){
     int lines;
     string lineStr;
     stringstream ss;
+    string buffy = "";
     ss << argv[2];
     ss >> lineStr;
     lines = stoi(lineStr);
@@ -44,13 +50,16 @@ int main(int argc, char * argv[]){
     strcpy(str, argv[3]);
     Read(str);
     for(int i = 0; i < lines; i++){
-      while(text[j] != '\n'){
-	cout << text[j];
+      while(text[mag - j] != '\n'){
+	buffy += text[mag - j];
 	j++;
       }//while
-      cout << endl;
+      buffy += '\n';
       j++;
     }//for
+    for(unsigned int i = 0; i < buffy.length(); i++){
+      cout << buffy[buffy.length() - i];
+    }
   }//if  
   
   return EXIT_SUCCESS;
@@ -67,7 +76,7 @@ static int Read(char *filename)
     }
 
   fseek(file, 0, SEEK_END);
-  long  mag  = ftell(file);
+  mag  = ftell(file);
   fseek(file, 0, SEEK_SET);
 
   text = (char*) malloc(mag + 1);
