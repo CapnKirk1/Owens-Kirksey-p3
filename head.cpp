@@ -14,31 +14,8 @@ using std::stoi;
 using std::stringstream;
 
 char* text = NULL;
-static int Read(char *filename)
-{
-  FILE *file = NULL;
-  file = fopen(filename, "rb");
-  if (file == NULL)
-    {
-      return 1;
-    }
-                                                                       
-  fseek(file, 0, SEEK_END);
-  long  mag  = ftell(file);
-  fseek(file, 0, SEEK_SET);
 
-  text = (char*) malloc(mag + 1);
-
-
-  mag = fread(text, 1, mag, file);
-  if (mag == 0)
-    {
-      return 2;
-    }
-
-  return 0;
-
-}
+static int Read(char *filename);
 
 int main(int argc, char * argv[]){
   char str[512] = "";
@@ -77,4 +54,30 @@ int main(int argc, char * argv[]){
   }//if  
   
   return EXIT_SUCCESS;
+}
+
+static int Read(char *filename)
+{
+  FILE *file = NULL;
+
+  file = fopen(filename, "rb");
+  if (file == NULL)
+    {
+      return 1;
+    }
+
+  fseek(file, 0, SEEK_END);
+  long  mag  = ftell(file);
+  fseek(file, 0, SEEK_SET);
+
+  text = (char*) malloc(mag + 1);
+
+  mag = fread(text, 1, mag, file);
+  if (mag == 0)
+    {
+      return 2;
+    }
+
+  return 0;
+
 }

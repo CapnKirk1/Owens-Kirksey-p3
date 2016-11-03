@@ -3,10 +3,15 @@
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
+#include <chrono>
+#include <ctime>
+#include <iomanip>
 
 using std::cout;
 using std::endl;
 using std::string;
+using std::setfill;
+using std::setw;
 
 int main(int argc, char * argv[]){
   
@@ -20,7 +25,6 @@ int main(int argc, char * argv[]){
   const char * month[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
   const char * fullmonth[] = {"January","February","March","April","May","June","July","August","Sepember","October","November","December"};
   const char * ds[] = {"EST","EDT"};
-
 
   if (argc == 1){
   cout << abvwkday[tim->tm_wday] << " " << month[tim->tm_mon] << " " << tim->tm_mday << " " 
@@ -98,7 +102,81 @@ int main(int argc, char * argv[]){
 	cout << "\n" << endl;
       }
       if (*(argv[1]+2) == 'N'){
-	cout << endl;
+	std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
+	auto duration = now.time_since_epoch();
+	auto nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
+	cout << (nanoseconds.count() % 1000000000) << endl;
+      }
+      if(*(argv[1]+2) == 'p'){
+	string ampm = "AM";
+	if((tim->tm_hour) > 12){
+	  ampm = "PM";
+	}
+	cout << ampm << endl;
+      }
+      if(*(argv[1]+2) == 'P'){
+	string ampm = "am";
+	if((tim->tm_hour) > 12){
+	  ampm = "pm";
+	}
+	cout << ampm << endl;
+      }
+      if(*(argv[1]+2) == 'r'){
+	cout << setfill('0') << setw(2) << (tim->tm_hour) % 12 << ":" << setfill('0') << setw(2) << tim->tm_min << ":" 
+	     << setfill('0') << setw(2) << tim->tm_sec << endl;
+      }
+      if(*(argv[1]+2) == 'R'){
+	cout << setfill('0') << setw(2) << (tim->tm_hour) % 12 << ":" << setfill('0') << setw(2) << tim->tm_min << endl;
+      }
+      if (*(argv[1]+2) == 's'){
+	std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
+        auto duration = now.time_since_epoch();
+        auto seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
+	cout << seconds.count() << endl;
+      }
+      if(*(argv[1]+2) == 'S'){
+	cout << setfill('0') << setw(2) << tim->tm_sec << endl;
+      }
+      if(*(argv[1]+2) == 't'){
+        cout << '\t' << endl;
+      }
+      if(*(argv[1]+2) == 'T'){
+        cout <<setfill('0') << setw(2) << (tim->tm_hour)  << ":" << setfill('0') << setw(2) << tim->tm_min << ":"
+             << setfill('0') << setw(2) << tim->tm_sec << endl;
+      }
+      if(*(argv[1]+2) == 'u'){
+        cout << tim->tm_wday << endl;
+      }
+      if(*(argv[1]+2) == 'U'){
+	int wknum = 0;
+	wknum = (tim->tm_yday / 7);
+	wknum++;
+        cout << wknum << endl;
+      }
+      if(*(argv[1]+2) == 'V'){
+        int wknum = 0;
+        wknum = (tim->tm_yday / 7);
+        wknum++;
+        cout << wknum << endl;
+      }
+      if(*(argv[1]+2) == 'w'){
+        cout << (tim->tm_wday % 7)<< endl;
+      }
+      if(*(argv[1]+2) == 'x'){
+        cout << (tim->tm_mon + 1) << "/" << tim->tm_mday << "/" << (1900 + tim->tm_year)  << endl;
+      }
+      if(*(argv[1]+2) == 'X'){
+        cout <<setfill('0') << setw(2) << (tim->tm_hour)  << ":" << setfill('0') << setw(2) << tim->tm_min << ":"
+             << setfill('0') << setw(2) << tim->tm_sec<< endl;
+      }
+      if(*(argv[1]+2) == 'y'){
+	cout << (1900 + tim->tm_year) % 100 << endl;
+      }
+      if(*(argv[1]+2) == 'Y'){
+        cout << (1900 + tim->tm_year) << endl;
+      }
+      if(*(argv[1]+2) == 'z'){
+        cout << endl;
       }
     }
   }
