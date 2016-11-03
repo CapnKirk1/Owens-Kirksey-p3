@@ -7,53 +7,49 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <sstream>
 
 using std::cout;
 using std::endl;
 using std::string;
-
+using std::stringstream;
+bool isA = false;
+bool isL = false;
+int j = 1;
 void nope_out(const string & prefix);
+void doit(int argc, char * argv []);
+int compare (const void * a, const void * b)
+{
+  return strcmp(*(char **)a, *(char **)b);
+}
 
-/**
- * For this example, in addition to seeing the error message, you can always
- * run `echo $?` after the program terminates to see the exit code that is 
- * returned by the program.
- */
-
-  int compare (const void * a, const void * b)
-  {
-    return strcmp(*(char **)a, *(char **)b);
-  }
-
-int main(const int argc, const char * argv []) {
-
-  cout.setf(std::ios::unitbuf);
-  const char * dirname;
-  if(argc == 1){dirname = ".";} 
-  else{dirname = argv[1];}
-  DIR * dirp = nullptr;
-  struct dirent * direntp;
-  //open
-  if ((dirp = opendir(dirname)) == nullptr ){
-    nope_out("opendir");
-  } 
-  char * name[128];
-  int i = 0;
-  while((direntp = readdir(dirp)) != nullptr){
-    name[i] = direntp->d_name;
-    i++;
-    //    if( i % 5 == 0){cout << "\n"}
-  }
-  qsort(name,i,sizeof(char*),compare);
-  for( int j = 0; j < i; j++)
-    { 
-      cout << name[j] << "\n";  
+int main(int argc, char * argv []) {
+  for(int k = 1; k < argc; k++){
+    if(*argv[k] == '-'){
+      if(*(argv[k] + 1) == 'a'){
+	isA = true;
+      }
+      if(*argv[k] == 'l'){
+	isL = true;
+      }
     }
-  //close
-  if (closedir(dirp) == -1){
-    nope_out("closedir");
   }
-
+  if(argc == 1)
+    {
+      stringstream ss;
+      string arg = ".";
+      char * noarg;
+      ss << arg;
+      ss >> noarg;
+      
+      doit(argc,&noarg);
+    }   
+  else
+    {
+      for(j = 1; j < argc; j++){
+	doit(argc,argv);
+      }
+    }
   return EXIT_SUCCESS;
   
 } // main
@@ -63,3 +59,35 @@ void nope_out(const string & prefix) {
   exit(EXIT_FAILURE);
 } // nope_out
 
+void doit(int argc, char * argv []){
+    cout.setf(std::ios::unitbuf);
+    char * dirname;
+    cout << argc << endl;  
+    dirname = argv[j];
+    DIR * dirp = nullptr;
+    struct dirent * direntp;
+    //open
+    if ((dirp = opendir(dirname)) == nullptr ){
+      nope_out("opendir");
+    } 
+    char * name[128];
+    int i = 0;
+    while((direntp = readdir(dirp)) != nullptr){
+      if(*(direntp->d_name) != '.' || isA ){
+      name[i] = direntp->d_name;
+      i++;
+      }
+      //    if( i % 5 == 0){cout << "\n"}
+    }
+    qsort(name,i,sizeof(char*),compare);
+    for( int j = 0; j < i; j++)
+      { 
+	if(i % 5 == 0){cout << "\n";}
+	cout << name[j] << "\t";  
+      }
+    //close
+    if (closedir(dirp) == -1){
+      nope_out("closedir");
+    }
+    cout << endl;
+}
