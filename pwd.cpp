@@ -4,22 +4,22 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <unistd.h>
-
+#include <err.h>
 using std::cout;
 using std::endl;
 
-int main(int argc, char * argv[]){
-  DIR *dir;
-  struct dirent *ent;
-  if ((dir = opendir (argv[0])) != NULL) {
-    
-    while ((ent = readdir (dir)) != NULL) {
-      if(*(ent->d_name) == '.'){
-	cout << ent->d_name << endl;
-	//unlink(temp);                                                            
-      }
+/*
+ Prints out the path from path max to your current directory
+*/
+  int main( void ){
+    char* p;
+    char buff[PATH_MAX + 1];
+    cout.setf(std::ios::unitbuf);
+    p = getcwd( buff, PATH_MAX + 1 );
+    if( p != NULL ) {
+      cout << p << endl;
     }
-    closedir (dir);
+    
+    return EXIT_SUCCESS;
   }
-  return EXIT_SUCCESS;
-}
+ 
