@@ -53,6 +53,10 @@ int main(int argc, char * argv[]){
     }//for
   }//if  
   
+  else{
+    cout << "Enter a file name" << endl;
+    exit(EXIT_FAILURE);
+  }
   return EXIT_SUCCESS;
 }
 
