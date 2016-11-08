@@ -38,19 +38,20 @@ int main(int argc, char * argv []) {
 	  }
 	}
       }
-      for(j = 1; j < argc; j++){
+      char dirname [PATH_MAX];
+      bool c1 = false;
+      if(argc == 1){
+	strcpy(dirname, ".");
+	c1 = true;
+      }
+      else{
+	strcpy(dirname, argv[j]);
+      }
+      for(j = 1; j <= argc; j++){
 	//doit(argc,argv);
 	cout.setf(std::ios::unitbuf);
-	char * dirname;
-	//cout << argc << endl;  
-	if (argc == 1)
-	  {
-	    char dot = '.';
-	    dirname == &dot;
-	  }
-	else{
-	dirname = argv[j];
-	}
+	if(!c1){strcpy(dirname, argv[j]);}
+	cout << dirname;
 	DIR * dirp = nullptr;
 	struct dirent * direntp;
 	//open
